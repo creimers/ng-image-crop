@@ -25,9 +25,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/krasimir/webpack-library-starter.git"
+    "url": "https://github.com/byteyard/ng-image-crop"
   },
   "keywords": [
+    "angular",
     "webpack",
     "es6",
     "starter",
@@ -36,18 +37,16 @@
     "umd",
     "commonjs"
   ],
-  "author": "Krasimir Tsonev",
+  "author": "byteyard",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/krasimir/webpack-library-starter/issues"
+    "url": "https://github.com/byteyard/ng-image-crop/issues"
   },
-  "homepage": "https://github.com/krasimir/webpack-library-starter",
+  "homepage": "https://github.com/byteyard/ng-image-crop",
   "dependencies": {
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "croppie": "^2.1.1",
     "css-loader": "^0.23.1",
-    "jade": "^1.11.0",
-    "jade-loader": "^0.8.0",
     "jquery": "^2.2.4",
     "scss-loader": "0.0.1",
     "style-loader": "^0.13.1"
