@@ -8,14 +8,28 @@ export default MODULE_NAME;
 const module = angular.module(MODULE_NAME, []);
 
 class ImageCropDirectiveCtrl {
-  constructor($element) {
+  constructor($scope, $element) {
     this.$element = $element;
+    this.$scope = $scope;
+    this._initCroppie();
+  }
+
+  _initCroppie() {
+    let _updateCallback = (crop)=> {
+      this.c.result('canvas').then((img)=> {
+        this.$scope.$apply(()=> {
+          this.croppedImage = img;
+        });
+      });
+    }
+
     this.croppieOptions = {
       viewport: {
           width: 200,
           height: 200,
           type: 'circle'
       },
+      update: _updateCallback
     }
     this.c = new croppie(this.$element[0], this.croppieOptions);
   }
@@ -36,6 +50,7 @@ class ImageCropDirectiveCtrl {
   get originalImage() {
     return this._originalImage;
   }
+
 }
 
 class ImageCropDirective {
