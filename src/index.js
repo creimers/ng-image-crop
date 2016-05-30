@@ -7,33 +7,49 @@ export default MODULE_NAME;
 
 const module = angular.module(MODULE_NAME, []);
 
+class ImageCropDirectiveCtrl {
+  constructor($element) {
+    this.$element = $element;
+    this.croppieOptions = {
+      viewport: {
+          width: 200,
+          height: 200,
+          type: 'circle'
+      },
+    }
+    this.c = new croppie(this.$element[0], this.croppieOptions);
+  }
+
+  set originalImage(value) {
+    this._originalImage = value;
+
+    if (this._originalImage !== undefined && this.c !== undefined) {
+      let reader = new FileReader();
+
+      reader.onload = ()=> {
+        this.c.bind(reader.result);
+      };
+      reader.readAsDataURL(this._originalImage);
+    }
+  }
+
+  get originalImage() {
+    return this._originalImage;
+  }
+}
+
 class ImageCropDirective {
 
-  constructor($window) {
-    this.$window = $window;
+  constructor() {
     this.restrict = 'E';
     this.template = require('./template.jade')();
     this.scope = {
       originalImage: '<',
       croppedImage: '='
     };
-  }
-
-  link(scope, element) {
-
-    let c = new croppie(element[0]);
- 
-    scope.$watch('originalImage', ()=> {
-      console.log('original image changed.');
-      if (scope.originalImage !== undefined) {
-        let reader = new FileReader();
-
-        reader.onload = ()=> {
-          c.bind(reader.result);
-        };
-        reader.readAsDataURL(scope.originalImage);
-      }
-    });
+    this.bindToController = true;
+    this.controller = ImageCropDirectiveCtrl;
+    this.controllerAs = '$ctrl';
   }
 
 }
