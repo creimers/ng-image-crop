@@ -25,9 +25,9 @@ class ImageCropDirectiveCtrl {
 
     this.croppieOptions = {
       viewport: {
-          width: 200,
-          height: 200,
-          type: 'circle'
+          width: this.width,
+          height: this.height,
+          type: this.type,
       },
       update: _updateCallback
     }
@@ -60,7 +60,10 @@ class ImageCropDirective {
     this.template = require('./template.jade')();
     this.scope = {
       originalImage: '<',
-      croppedImage: '='
+      croppedImage: '=',
+      type: '@',
+      height: '@',
+      width: '@',
     };
     this.bindToController = true;
     this.controller = ImageCropDirectiveCtrl;
