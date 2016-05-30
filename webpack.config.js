@@ -3,7 +3,7 @@ var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var path = require('path');
 var env = require('yargs').argv.mode;
 
-var libraryName = 'library';
+var libraryName = 'ngImageCrop';
 
 var plugins = [], outputFile;
 
@@ -26,6 +26,10 @@ var config = {
   },
   module: {
     loaders: [
+      {
+        test: /\.css$/,
+        loaders: ["style", "css"]
+      },
       {
         test: /(\.jsx|\.js)$/,
         loader: 'babel',
