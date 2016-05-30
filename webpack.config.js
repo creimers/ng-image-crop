@@ -24,8 +24,15 @@ var config = {
     libraryTarget: 'umd',
     umdNamedDefine: true
   },
+  externals: {
+    croppie: 'croppie'
+  },
   module: {
     loaders: [
+      {
+        test: /\.jade$/,
+        loader: 'jade'
+      },
       {
         test: /\.css$/,
         loaders: ["style", "css"]
