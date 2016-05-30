@@ -57,7 +57,6 @@ class ImageCropDirective {
 
   constructor() {
     this.restrict = 'E';
-    this.template = require('./template.jade')();
     this.scope = {
       originalImage: '<',
       croppedImage: '=',
