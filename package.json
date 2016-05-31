@@ -47,6 +47,7 @@
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
     "croppie": "^2.1.1",
     "css-loader": "^0.23.1",
+    "exif-js": "^2.1.1",
     "jquery": "^2.2.4",
     "scss-loader": "0.0.1",
     "style-loader": "^0.13.1"
