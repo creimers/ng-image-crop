@@ -23,15 +23,9 @@ class ImageCropDirectiveCtrl {
       });
     }
 
-    this.croppieOptions = {
-      viewport: {
-          width: this.width,
-          height: this.height,
-          type: this.type,
-      },
-      update: _updateCallback
-    }
-    this.c = new croppie(this.$element[0], this.croppieOptions);
+    this.options.update = _updateCallback;
+
+    this.c = new croppie(this.$element[0], this.options);
   }
 
   set originalImage(value) {
@@ -60,9 +54,7 @@ class ImageCropDirective {
     this.scope = {
       originalImage: '<',
       croppedImage: '=',
-      type: '@',
-      height: '@',
-      width: '@',
+      options: '<'
     };
     this.bindToController = true;
     this.controller = ImageCropDirectiveCtrl;
