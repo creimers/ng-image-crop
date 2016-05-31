@@ -1,5 +1,6 @@
 import 'croppie/croppie.css';
 let croppie = require('croppie/croppie.js');
+let EXIF = require('exif-js');
 
 const MODULE_NAME = 'ngImageCrop';
 
@@ -8,10 +9,12 @@ export default MODULE_NAME;
 const module = angular.module(MODULE_NAME, []);
 
 class ImageCropDirectiveCtrl {
-  constructor($scope, $element) {
+  constructor($scope, $element, $window) {
     this.$element = $element;
     this.$scope = $scope;
+    this.$window = $window;
     this._initCroppie();
+    this.$window.EXIF = EXIF;
   }
 
   _initCroppie() {
