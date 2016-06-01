@@ -22,6 +22,9 @@ class ImageCropDirectiveCtrl {
 
   set originalImage(value) {
     this._originalImage = value;
+    if (this.c !== undefined) {
+      this._bindImage();
+    }
   }
 
   get originalImage() {
@@ -38,22 +41,26 @@ class ImageCropDirectiveCtrl {
     });
   }
 
-  _initCroppie() {
-    this.c = new croppie(this.$element[0], this.options);
-    if (this._originalImage) {
-      let reader = new FileReader();
+  _bindImage() {
+    let reader = new FileReader();
 
-      reader.onload = ()=> {
-        this.c.bind(reader.result);
-      };
-      reader.readAsDataURL(this._originalImage);
-    }
+    reader.onload = ()=> {
+      this.c.bind(reader.result);
+    };
+    reader.readAsDataURL(this._originalImage);
     var saveCallback = ()=> {
       this._saveCrop();
     };
 
     this.$element.on('mouseup touchend wheel', saveCallback);
     this.$timeout(saveCallback, 250);
+  }
+
+  _initCroppie() {
+    this.c = new croppie(this.$element[0], this.options);
+    if (this._originalImage) {
+      this._bindImage();
+    }
   }
 
   _b64ToBlob(b64Data) {
