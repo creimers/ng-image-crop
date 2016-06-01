@@ -54,6 +54,7 @@ class ImageCropDirectiveCtrl {
     };
 
     this.$element.on('mouseup touchend wheel', saveCallback);
+    this.$timeout(saveCallback, 250);
   }
 
   _b64ToBlob(b64Data) {
