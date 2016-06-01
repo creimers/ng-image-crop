@@ -5,7 +5,12 @@ var env = require('yargs').argv.mode;
 
 var libraryName = 'ngImageCrop';
 
-var plugins = [], outputFile;
+var plugins = [
+  new webpack.ProvidePlugin({
+    "window.EXIF": "exif-js",
+  })
+];
+var outputFile;
 
 if (env === 'build') {
   plugins.push(new UglifyJsPlugin({ minimize: true }));
@@ -25,7 +30,8 @@ var config = {
     umdNamedDefine: true
   },
   externals: {
-    croppie: 'croppie'
+    croppie: 'croppie',
+    'window.EXIF': 'exif-js'
   },
   module: {
     loaders: [
