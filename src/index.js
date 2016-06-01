@@ -15,22 +15,13 @@ class ImageCropDirectiveCtrl {
     this.$scope = $scope;
     this.$timeout = $timeout;
     this.$window = $window;
-    this._initCroppie();
     this.$window.EXIF = EXIF;
-
+    this.initialized = false;
+    this._initCroppie();
   }
 
   set originalImage(value) {
     this._originalImage = value;
-
-    if (this._originalImage !== undefined && this.c !== undefined) {
-      let reader = new FileReader();
-
-      reader.onload = ()=> {
-        this.c.bind(reader.result);
-      };
-      reader.readAsDataURL(this._originalImage);
-    }
   }
 
   get originalImage() {
@@ -49,6 +40,14 @@ class ImageCropDirectiveCtrl {
 
   _initCroppie() {
     this.c = new croppie(this.$element[0], this.options);
+    if (this._originalImage) {
+      let reader = new FileReader();
+
+      reader.onload = ()=> {
+        this.c.bind(reader.result);
+      };
+      reader.readAsDataURL(this._originalImage);
+    }
     var saveCallback = ()=> {
       this._saveCrop();
     };
