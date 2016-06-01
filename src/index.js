@@ -21,10 +21,12 @@ class ImageCropDirectiveCtrl {
     let _updateCallback = (crop)=> {
       this.c.result('canvas').then((img)=> {
         this.$scope.$apply(()=> {
-          this.croppedImage = img;
+          var regex = /^data:[a-z]+\/[a-z]+;base64,(.+)/;
+          var base64String = regex.exec(img);
+          this.croppedImage = this.b64ToBlob(base64String[base64String.length - 1]);
         });
       });
-    }
+    };
 
     this.options.update = _updateCallback;
 
@@ -48,6 +50,28 @@ class ImageCropDirectiveCtrl {
     return this._originalImage;
   }
 
+  b64ToBlob(b64Data) {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+    const contentType = this._originalImage.type;
+    const sliceSize = 512;
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+      
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      
+      const byteArray = new Uint8Array(byteNumbers);
+      
+      byteArrays.push(byteArray);
+    }
+    
+    const blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
 }
 
 class ImageCropDirective {
