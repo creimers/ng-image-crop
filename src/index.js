@@ -9,28 +9,15 @@ export default MODULE_NAME;
 const module = angular.module(MODULE_NAME, []);
 
 class ImageCropDirectiveCtrl {
-  constructor($scope, $element, $window) {
+  constructor($scope, $document, $element, $timeout, $window) {
+    this.$document = $document;
     this.$element = $element;
     this.$scope = $scope;
+    this.$timeout = $timeout;
     this.$window = $window;
     this._initCroppie();
     this.$window.EXIF = EXIF;
-  }
 
-  _initCroppie() {
-    let _updateCallback = (crop)=> {
-      this.c.result('canvas').then((img)=> {
-        this.$scope.$apply(()=> {
-          var regex = /^data:[a-z]+\/[a-z]+;base64,(.+)/;
-          var base64String = regex.exec(img);
-          this.croppedImage = this.b64ToBlob(base64String[base64String.length - 1]);
-        });
-      });
-    };
-
-    this.options.update = _updateCallback;
-
-    this.c = new croppie(this.$element[0], this.options);
   }
 
   set originalImage(value) {
@@ -50,7 +37,26 @@ class ImageCropDirectiveCtrl {
     return this._originalImage;
   }
 
-  b64ToBlob(b64Data) {
+  _saveCrop() {
+    this.c.result('canvas').then((img)=> {
+      this.$scope.$apply(()=> {
+        var regex = /^data:[a-z]+\/[a-z]+;base64,(.+)/;
+        var base64String = regex.exec(img);
+        this.croppedImage = this._b64ToBlob(base64String[base64String.length - 1]);
+      });
+    });
+  }
+
+  _initCroppie() {
+    this.c = new croppie(this.$element[0], this.options);
+    var saveCallback = ()=> {
+      this._saveCrop();
+    };
+
+    this.$element.on('mouseup touchend wheel', saveCallback);
+  }
+
+  _b64ToBlob(b64Data) {
     const byteCharacters = atob(b64Data);
     const byteArrays = [];
     const contentType = this._originalImage.type;
