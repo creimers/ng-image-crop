@@ -76,6 +76,9 @@ class ImageCropDirectiveCtrl {
     }
     
     const blob = new Blob(byteArrays, {type: contentType});
+    let width = this.c.options.viewport.width;
+    let height = this.c.options.viewport.height;
+    blob.name = width + '_' + height + '_' + this._originalImage.name;
     return blob;
   }
 }
