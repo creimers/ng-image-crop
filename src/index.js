@@ -31,33 +31,32 @@ class ImageCropDirectiveCtrl {
     return this._originalImage;
   }
 
-  _saveCrop() {
+  saveCrop() {
+    // returns a blob of the cropped image
     this.c.result('canvas').then((img)=> {
       this.$scope.$apply(()=> {
         var regex = /^data:[a-z]+\/[a-z]+;base64,(.+)/;
         var base64String = regex.exec(img);
-        this.croppedImage = this._b64ToBlob(base64String[base64String.length - 1]);
+        var croppedImage = this._b64ToBlob(base64String[base64String.length - 1]);
+        // call apply callback
+        this.onApply({image: croppedImage});
       });
     });
   }
 
   _bindImage() {
+    // binds image to croppie instance
     let reader = new FileReader();
 
     reader.onload = ()=> {
       this.c.bind(reader.result);
     };
     reader.readAsDataURL(this._originalImage);
-    var saveCallback = ()=> {
-      this._saveCrop();
-    };
-
-    this.$element.on('mouseup touchend wheel', saveCallback);
-    this.$timeout(saveCallback, 250);
   }
 
   _initCroppie() {
-    this.c = new croppie(this.$element[0], this.options);
+    // initializes a croppie instance
+    this.c = new croppie(this.$element.find('.cropper')[0], this.options);
     if (this._originalImage) {
       this._bindImage();
     }
@@ -96,12 +95,14 @@ class ImageCropDirective {
     this.restrict = 'E';
     this.scope = {
       originalImage: '<',
-      croppedImage: '=',
-      options: '<'
+      options: '<',
+      onApply: "&",
+      onCancel: "&"
     };
     this.bindToController = true;
     this.controller = ImageCropDirectiveCtrl;
     this.controllerAs = '$ctrl';
+    this.template = require('./template.jade')();
   }
 
 }
