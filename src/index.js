@@ -33,7 +33,11 @@ class ImageCropDirectiveCtrl {
 
   saveCrop() {
     // returns a blob of the cropped image
-    this.c.result('canvas').then((img)=> {
+    this.c.result({
+      type: 'canvas',
+      quality: 1,
+      size: {width: this.options.viewport.width * 2, height: this.options.viewport.height * 2}
+    }).then((img)=> {
       this.$scope.$apply(()=> {
         var regex = /^data:[a-z]+\/[a-z]+;base64,(.+)/;
         var base64String = regex.exec(img);
