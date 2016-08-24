@@ -35,8 +35,9 @@ class ImageCropDirectiveCtrl {
     // returns a blob of the cropped image
     this.c.result({
       type: 'canvas',
-      quality: 1,
-      size: {width: this.options.viewport.width * 2, height: this.options.viewport.height * 2}
+      quality: this.options.result.quality,
+      size: {width: this.options.result.width},
+      format: this.options.result.format
     }).then((img)=> {
       this.$scope.$apply(()=> {
         var regex = /^data:[a-z]+\/[a-z]+;base64,(.+)/;
@@ -60,7 +61,7 @@ class ImageCropDirectiveCtrl {
 
   _initCroppie() {
     // initializes a croppie instance
-    this.c = new croppie(this.$element.find('.cropper')[0], this.options);
+    this.c = new croppie(this.$element.find('.cropper')[0], this.options.croppie);
     if (this._originalImage) {
       this._bindImage();
     }
@@ -86,9 +87,10 @@ class ImageCropDirectiveCtrl {
     }
     
     const blob = new Blob(byteArrays, {type: contentType});
-    let width = this.c.options.viewport.width;
-    let height = this.c.options.viewport.height;
-    blob.name = width + '_' + height + '_' + this._originalImage.name;
+    let width = this.options.result.width;
+    let height = this.options.result.height;
+    let quality = this.options.result.quality;
+    blob.name = width + '_' + height + '_' + quality + '_' + this._originalImage.name;
     return blob;
   }
 }
@@ -100,8 +102,8 @@ class ImageCropDirective {
     this.scope = {
       originalImage: '<',
       options: '<',
-      onApply: "&",
-      onCancel: "&"
+      onApply: '&',
+      onCancel: '&'
     };
     this.bindToController = true;
     this.controller = ImageCropDirectiveCtrl;
