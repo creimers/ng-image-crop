@@ -14,7 +14,7 @@ npm install git+https://git@github.com/byteyard/ng-image-crop
 
 ## angular module
 
-```
+```javascript
 import ngImageCrop from 'ng-image-crop'
 
 angular.module('moduleName', [..., ngImageCrop, ...])
@@ -22,7 +22,7 @@ angular.module('moduleName', [..., ngImageCrop, ...])
 
 ## controller
 
-```
+```javascript
 this.options = {
   result: {
     quality: .75,
@@ -45,7 +45,7 @@ this.options = {
 
 ## template
 
-```
+```html
 <image-crop
   original-image="$ctrl.originalImage"
   options="$ctrl.options"
