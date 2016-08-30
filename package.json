@@ -45,7 +45,7 @@
   "homepage": "https://github.com/byteyard/ng-image-crop",
   "dependencies": {
     "babel-plugin-transform-remove-strict-mode": "0.0.2",
-    "croppie": "^2.1.1",
+    "croppie": "^2.3.0",
     "css-loader": "^0.23.1",
     "exif-js": "^2.1.1",
     "jquery": "^2.2.4",
