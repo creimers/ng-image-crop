@@ -2,12 +2,17 @@ var webpack = require('webpack');
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var path = require('path');
 var env = require('yargs').argv.mode;
+var ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
 
 var libraryName = 'ngImageCrop';
 
 var plugins = [
   new webpack.ProvidePlugin({
     "window.EXIF": "exif-js",
+  }),
+  new ngAnnotatePlugin({
+      add: true,
+      // other ng-annotate options here 
   })
 ];
 var outputFile;
