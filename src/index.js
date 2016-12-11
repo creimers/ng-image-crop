@@ -9,6 +9,7 @@ export default MODULE_NAME;
 const module = angular.module(MODULE_NAME, []);
 
 class ImageCropDirectiveCtrl {
+  /* @ngInject */
   constructor($scope, $document, $element, $timeout, $window) {
     this.$document = $document;
     this.$element = $element;
